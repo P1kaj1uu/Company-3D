@@ -1,0 +1,13 @@
+/*这是 font.css 可设置多种字体；*/
+/*注意：font-family: 'XXX'; 将字体名字自定义为 XXX,使用时要用这个名字*/
+
+/* 成功案例文字标题字体 */
+@font-face {
+    font-family: 'MFLiHei_Noncommercial-Regular';
+    src: url('./MFLiHei_Noncommercial-Regular.ttf');
+}
+
+@font-face {
+    font-family: '优设标题黑';
+    src: url('./优设标题黑.ttf');
+}
