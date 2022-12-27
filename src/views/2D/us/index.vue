@@ -1,4 +1,3 @@
-<!--DT 2022.9.23 关于我们-->
 <template>
   <div class="us-container">
     <!-- 关于我们 -->
