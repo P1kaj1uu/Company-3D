@@ -1,9 +1,3 @@
-<!--
- * @Description: 3D圆环模型成功案例
- * @Author: 邓涛
- * @Date: 2022-09-26 11:41:42
- * @LastEditTime: 2022-12-22 17:30:29
--->
 <template>
   <div class="box">
     <div class="container-box">
@@ -25,6 +19,16 @@
       </div>
       <div class="circle"></div>
       <audio ref="audio" preload="auto" autoplay loop :src="require('../../../assets/背景音效.mp3')"></audio>
+    </div>
+    <div class="loadEffect">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   </div>
 </template>
@@ -298,6 +302,25 @@ const init = () => {
       console.log(item.name, item.rotation)
     })
     console.log(object.scene.children[0].children)
+  }, size => {
+    console.log(size)
+    if (size.loaded >= 3780000) {
+      document.querySelector('.loadEffect').style.display = 'none'
+      document.querySelector('.success-list').style.display = 'block'
+      document.querySelector('.under-txt').style.display = 'block'
+      document.querySelector('.in-line').style.display = 'block'
+      document.querySelector('.under-line').style.display = 'block'
+      console.log(timer.value)
+      if (timer.value) {
+        clearInterval(timer.value)
+        swipeText()
+      }
+    } else {
+      clearInterval(timer.value)
+      document.querySelector('.loadEffect').style.display = 'block'
+    }
+  }, error => {
+    console.log(error)
   })
   const geometry = new THREE.PlaneGeometry(130, 200)
   const groundMirror = new Reflector(geometry, {
@@ -400,6 +423,7 @@ defineExpose({
   position: relative;
 }
 .success-list {
+  display: none;
   position: absolute;
   top: 487px;
   left: 122px;
@@ -413,6 +437,7 @@ defineExpose({
   border-bottom: 1px solid #0B65A3;
 }
 .in-line {
+  display: none;
   width: 78px;
   border: 1px solid #00FFBA;
   position: absolute;
@@ -448,11 +473,13 @@ defineExpose({
   background-color: rgba(0, 0, 0, .2);
 }
 .under-line {
+  display: none;
   position: absolute;
   top: 900px;
   left: 120px;
 }
 .under-txt {
+  display: none;
   position: absolute;
   top: 920px;
   left: 1770px;
@@ -465,5 +492,75 @@ defineExpose({
     color: #0B65A3;
     line-height: 16px;
   }
+}
+
+.loadEffect {
+  display: none;
+  width: 100px;
+  height: 100px;
+  margin-left: 50%;
+  transform: translate(-50%, -525%);
+  position: absolute;
+}
+.loadEffect span {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: lightgreen;
+  position: absolute;
+  animation: load 1.04s ease infinite;
+}
+@keyframes load {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+.loadEffect span:nth-child(1) {
+  left: 0;
+  top: 50%;
+  margin-top: -8px;
+  animation-delay: 0.13s;
+}
+.loadEffect span:nth-child(2) {
+  left: 14px;
+  top: 14px;
+  animation-delay: 0.26s;
+}
+.loadEffect span:nth-child(3) {
+  left: 50%;
+  top: 0;
+  margin-left: -8px;
+  animation-delay: 0.39s;
+}
+.loadEffect span:nth-child(4) {
+  top: 14px;
+  right: 14px;
+  animation-delay: 0.52s;
+}
+.loadEffect span:nth-child(5) {
+  right: 0;
+  top: 50%;
+  margin-top: -8px;
+  animation-delay: 0.65s;
+}
+.loadEffect span:nth-child(6) {
+  right: 14px;
+  bottom: 14px;
+  animation-delay: 0.78s;
+}
+.loadEffect span:nth-child(7) {
+  bottom: 0;
+  left: 50%;
+  margin-left: -8px;
+  animation-delay: 0.91s;
+}
+.loadEffect span:nth-child(8) {
+  bottom: 14px;
+  left: 14px;
+  animation-delay: 1.04s;
 }
 </style>
