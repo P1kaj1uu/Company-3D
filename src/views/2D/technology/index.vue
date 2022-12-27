@@ -1,9 +1,3 @@
-<!--
- * @Description: 技术页面
- * @Author: 杨锐
- * @version: 0.1
- * @LastEditTime: 2022-12-12 16:21:14
--->
 <template>
   <div class="containerBox">
     <div class="headerBox">
