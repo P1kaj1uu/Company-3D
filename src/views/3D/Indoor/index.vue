@@ -1,10 +1,3 @@
-<!--
- * @Description: 室内模型
- * @Author: 杨锐
- * @version: 0.1
- * @LastEditTime: 2022-12-12 18:36:27
--->
-
 <template>
   <div ref="container" class="container"></div>
   <!-- 返回 -->
