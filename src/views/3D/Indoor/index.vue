@@ -11,6 +11,7 @@
       id="daylight"
       v-show="isShowSky"
       @click="toggleFn"
+      :disabled="isUsed"
     >
       切换到白天场景
     </button>
@@ -18,6 +19,7 @@
       class="toggleBtn"
       id="evening"
       v-show="!isShowSky"
+      :disabled="isUsed"
       @click="toggleFn"
     >
       切换到傍晚场景
@@ -73,12 +75,13 @@ const clickBack = async () => {
   show.value = false
   router.push('/interior')
 }
-
+const isUsed = ref(false)
 const isShowSky = ref(true)
 const timer1 = ref(null)
 const timer2 = ref(null)
 const toggleFn = (e) => {
   isShowSky.value = !isShowSky.value
+  isUsed.value = true
   // 切换白天
   if (e.target.id === 'daylight') {
     // 显示天空
@@ -93,6 +96,7 @@ const toggleFn = (e) => {
           }
         })
         clearInterval(timer1.value)
+        isUsed.value = false
       }
     }, 1000)
   } else {
@@ -109,6 +113,7 @@ const toggleFn = (e) => {
             child.intensity = 0
           }
         })
+        isUsed.value = false
       }
     }, 150)
   }
