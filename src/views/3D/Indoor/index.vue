@@ -940,7 +940,7 @@ onBeforeUnmount(() => {
 .container {
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: relative;
   background-color: #1c2147;
   left: 0;
   top: 0;
@@ -985,10 +985,9 @@ onBeforeUnmount(() => {
   display: none;
   width: 100px;
   height: 100px;
-  margin-top: 25%;
   margin-left: 50%;
-  transform: translate(-50%, -50%);
-  position: relative;
+  transform: translate(-50%, -525%);
+  position: absolute;
 }
 .loadEffect span {
   display: inline-block;
