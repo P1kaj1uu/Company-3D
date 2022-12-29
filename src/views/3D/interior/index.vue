@@ -4,11 +4,17 @@
   <!-- 点击箭头 -->
   <div class="jiantou" v-if="show" @click="clickAnimate">
     <img src="@/assets/images/箭头1.png" alt="" class="jiantou1">
+    <span class="jiantoutxt">前往公司研发区</span>
   </div>
   <!-- 返回 -->
   <div class="fanhui" v-if="show" @click="clickBack">
     <img src="@/assets/images/后退1.png" alt="" class="fanhui1">
   </div>
+  <!-- 返回主页 -->
+  <div class="toggleDisplay" v-if="show">
+    <button class="toggleBtn" @click="clickBack">回退到首页</button>
+  </div>
+  <audio ref="audio" preload="auto" autoplay loop :src="require('@/assets/背景音效2.mp3')"></audio>
   <loadingPage :info="state"></loadingPage>
 </template>
 
@@ -672,10 +678,13 @@ onBeforeUnmount(() => {
 
 // 箭头动画
 .jiantou {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 999;
   position: fixed;
   top: 35vh;
-  left: 35vw;
+  left: 33vw;
   transition: All 0.4s ease-in-out;
   -webkit-transition: All 0.4s ease-in-out;
   -moz-transition: All 0.4s ease-in-out;
@@ -686,6 +695,13 @@ onBeforeUnmount(() => {
     z-index: 999;
     width: 80px;
     transform: rotateZ(90deg);
+  }
+
+  .jiantoutxt {
+    color: #75e2ed;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 10px;
   }
 }
 
@@ -699,6 +715,24 @@ onBeforeUnmount(() => {
     z-index: 999;
     width: 40px;
     //transform: rotateZ(90deg);
+  }
+}
+
+.toggleDisplay {
+  position: absolute;
+  top: 13px;
+  left: 125px;
+  .toggleBtn {
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 550;
+    border: 1px solid #52a9c4;
+    background-color: #52a9c4;
+    color: white;
   }
 }
 
