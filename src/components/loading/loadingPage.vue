@@ -13,6 +13,8 @@
       </div>
     </div>
     <div ref="title" class="title">触及科技</div>
+    <div class="title" style="margin-top: 30px; font-size: 15px;" v-if="toRefs(route).path.value === '/interior'">即将进入公司前台</div>
+    <div class="title" style="margin-top: 30px; font-size: 15px;" v-if="toRefs(route).path.value === '/indoor'">请耐心等待，正在进入研发办公区</div>
     <div style="font-size: 25px !important; margin-top: 25px !important; color: red;">{{ shijians }}</div>
     <div class="longfazers">
       <span :ref="line1"></span>
@@ -26,6 +28,9 @@
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref, defineProps, toRefs, watch } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const props = defineProps({
   info: Boolean,
