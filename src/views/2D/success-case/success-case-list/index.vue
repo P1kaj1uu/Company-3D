@@ -6,11 +6,16 @@
         <img src="@/assets/images/successlist/Appdevelopment.png" alt="">
       </div>
       <div class="list-title-text wow fadeInUp">
-        <p>APP开发</p>
+        <p v-if="toRaw(route).path.value === '/successlist/1'">智能硬件/人工智能</p>
+        <p v-else-if="toRaw(route).path.value === '/successlist/2'">数字孪生</p>
+        <p v-else-if="toRaw(route).path.value === '/successlist/3'">C++/QT/CAD插件</p>
+        <p v-else-if="toRaw(route).path.value === '/successlist/4'">移动应用开发</p>
+        <p v-else-if="toRaw(route).path.value === '/successlist/5'">VR/AR</p>
+        <p v-else>信息化项目</p>
         <img src="@/assets/images/successlist/横线.png" alt="">
       </div>
       <div class="list-title-back wow fadeInUp" @click="router.go(-1)">
-        <img src="@/assets/images/successlist/返回上一级.png" alt="">
+        <img src="@/assets/images/successlist/返回上一级.png" style="cursor: pointer;" alt="">
       </div>
     </div>
     <!-- 标题e -->
@@ -249,18 +254,20 @@
       </div>
     </div>
     <!--  内容e  -->
+    <audio ref="audio" preload="auto" autoplay loop :src="require('@/assets/背景音效1.mp3')"></audio>
   </div>
 </template>
 
 <script setup>
 import WOW from 'wow.js'
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, toRaw } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 onMounted(() => {
   const wow = new WOW({})
   wow.init()
 })
 const router = useRouter()
+const route = useRoute()
 </script>
 
 <style scoped lang="less">
