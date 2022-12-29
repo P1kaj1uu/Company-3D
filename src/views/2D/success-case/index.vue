@@ -1,11 +1,15 @@
 <template>
   <div class="box">
+    <!-- 返回主页 -->
+    <div class="toggleDisplay">
+      <button class="toggleBtn" @click="router.push('/')">回退到首页</button>
+    </div>
     <div class="container-box">
       <div id="model-container"></div>
       <div class="success-list">
-        <div class="success-item">VR/AR</div>
-        <div class="success-item-index">01</div>
-        <div class="arrow" @mouseover="handleMouseOver($event)" @mouseout="handleMouseOut">
+        <div class="success-item" style="user-select: none;">智能硬件/人工智能</div>
+        <div class="success-item-index" style="user-select: none;">01</div>
+        <div class="arrow" @mouseover="handleMouseOver($event)" @mouseout="handleMouseOut" style="user-select: none;">
           <img :src="require('@/assets/images/us/右箭头未激活.png')" :data-arrowLR="1" v-show="isActArrow" class="arrow-right" alt="">
           <img :src="require('@/assets/images/us/右箭头激活.png')" :data-arrowLR="1" @click="toSuccessList($event)" v-show="!isActArrow" class="arrow-right" alt="">
         </div>
@@ -13,12 +17,14 @@
       <div class="in-line"></div>
       <img class="under-line" :src="require('@/assets/images/underline.png')" alt="">
       <div class="under-txt">
-        <span class="cur">1</span>
-        <span class="middle">/</span>
-        <span class="total">{{ textList.length }}</span>
+        <span class="cur" style="user-select: none;">1</span>
+        <span class="middle" style="user-select: none;">/</span>
+        <span class="total" style="user-select: none;">{{ textList.length }}</span>
       </div>
-      <div class="circle"></div>
-      <audio ref="audio" preload="auto" autoplay loop :src="require('../../../assets/背景音效.mp3')"></audio>
+      <div class="circle">
+        <span class="tips">双击模型快速跳转</span>
+      </div>
+      <audio ref="audio" preload="auto" autoplay loop :src="require('../../../assets/背景音效1.mp3')"></audio>
     </div>
     <div class="loadEffect">
       <span></span>
@@ -58,36 +64,37 @@ const listIndex = ref(0)
 const isActArrow = ref(true)
 const textList = reactive([
   {
-    title: 'VR/AR',
+    title: '智能硬件/人工智能',
     titleId: 0,
     titleIndex: '01'
   },
   {
-    title: '信息化项目',
+    title: '数字孪生',
     titleId: 1,
     titleIndex: '02'
   },
   {
-    title: '智能硬件/人工智能',
+    title: 'C＋＋/QT/CAD插件',
     titleId: 2,
     titleIndex: '03'
   },
   {
-    title: '数字孪生',
+    title: '移动应用开发',
     titleId: 3,
     titleIndex: '04'
   },
   {
-    title: 'C＋＋/QT/CAD插件',
+    title: 'VR/AR',
     titleId: 4,
     titleIndex: '05'
   },
   {
-    title: '移动应用开发',
+    title: '信息化项目',
     titleId: 5,
     titleIndex: '06'
   }
 ])
+const isShowTips = ref(false)
 // 判断鼠标按下与否
 const isDownOrUp = ref(false)
 const container = ref(null)
@@ -97,6 +104,7 @@ onMounted(() => {
   animate()
   container.value.addEventListener('mousedown', handleMouseDown, false)
   container.value.addEventListener('mouseup', handleMouseUp, false)
+  container.value.addEventListener('dblclick', handleClick, false)
   window.addEventListener('mousemove', handleMouseMove, false)
   swipeText()
 })
@@ -110,6 +118,51 @@ onBeforeUnmount(() => {
     timer.value = null
   }
 })
+
+// 获取模型数组
+const getIntersects = (event) => {
+  event.preventDefault()
+  // 声明 rayCaster 和 mouse 变量
+  const rayCaster = new THREE.Raycaster()
+  const mouse = new THREE.Vector2()
+  // 通过鼠标点击位置，计算出raycaster所需点的位置，以屏幕为中心点，范围-1到1
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1 // 这里为什么是-号，没有就无法点中
+  // 通过鼠标点击的位置(二维坐标)和当前相机的矩阵计算出射线位置
+  rayCaster.setFromCamera(mouse, camera.value)
+  // 获取与射线相交的对象数组， 其中的元素按照距离排序，越近的越靠前。
+  // +true，是对其后代进行查找，这个在这里必须加，因为模型是由很多部分组成的，后代非常多。
+  const intersects = rayCaster.intersectObjects(scene.value.children, true)
+  // 返回选中的对象
+  return intersects
+}
+
+// 双击模型跳转对应详情页
+const handleClick = (e) => {
+  const intersects = getIntersects(e)
+  const name = intersects[0]?.object?.name
+  switch (name) {
+    case '智能硬件':
+      router.push('/successlist/1')
+      break
+    case '数字孪生':
+      router.push('/successlist/2')
+      break
+    case 'C++':
+      router.push('/successlist/3')
+      break
+    case '移动':
+      router.push('/successlist/4')
+      break
+    case 'VR':
+      router.push('/successlist/5')
+      break
+    case '信息化':
+      router.push('/successlist/6')
+      break
+  }
+}
+
 // 3D模型
 const init = () => {
   // const mouse = new THREE.Vector2()
@@ -275,7 +328,7 @@ const init = () => {
   // point6Value.add(point6.position, 'z', -3000, 3000)
 
   const fbxLoader = new GLTFLoader()
-  fbxLoader.load('model/yh22.gltf', function (object) {
+  fbxLoader.load('model/yh24.gltf', function (object) {
     object.scene.position.y = -8
     object.scene.position.z = -6
     object.scene.castShadow = true
@@ -304,12 +357,14 @@ const init = () => {
     console.log(object.scene.children[0].children)
   }, size => {
     console.log(size)
-    if (size.loaded >= 3780000) {
+    if (size.loaded >= 3760000) {
       document.querySelector('.loadEffect').style.display = 'none'
       document.querySelector('.success-list').style.display = 'block'
       document.querySelector('.under-txt').style.display = 'block'
       document.querySelector('.in-line').style.display = 'block'
       document.querySelector('.under-line').style.display = 'block'
+      document.querySelector('.toggleDisplay').style.display = 'block'
+      isShowTips.value = true
       console.log(timer.value)
       if (timer.value) {
         clearInterval(timer.value)
@@ -373,6 +428,15 @@ const handleMouseMove = (e) => {
   if (document.querySelector('.circle')) {
     document.querySelector('.circle').style.left = e.pageX + 'px'
     document.querySelector('.circle').style.top = e.pageY + 'px'
+  }
+  if (e.target.localName === 'canvas') {
+    if (document.querySelector('.circle .tips') && isShowTips.value) {
+      document.querySelector('.circle .tips').style.display = 'block'
+    }
+  } else {
+    if (document.querySelector('.circle .tips')) {
+      document.querySelector('.circle .tips').style.display = 'none'
+    }
   }
 }
 // 轮播文字
@@ -466,11 +530,18 @@ defineExpose({
 }
 .circle {
   position: absolute;
-  width: 50px;
+  width: 65px;
   height: 50px;
   border: 1px solid #333;
   border-radius: 50%;
+  font-size: 14px;
+  padding-top: 20px;
+  text-align: center;
+  color: #ffffff;
   background-color: rgba(0, 0, 0, .2);
+}
+.circle .tips {
+  display: none;
 }
 .under-line {
   display: none;
@@ -491,6 +562,26 @@ defineExpose({
     font-weight: 300;
     color: #0B65A3;
     line-height: 16px;
+  }
+}
+
+.toggleDisplay {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  top: 42px;
+  left: 355px;
+  .toggleBtn {
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 550;
+    border: 1px solid #52a9c4;
+    background-color: #52a9c4;
+    color: white;
   }
 }
 
