@@ -4,8 +4,12 @@
   <div class="fanhui" v-if="show" @click="clickBack">
     <img src="@/assets/images/后退1.png" alt="" class="fanhui1" />
   </div>
-  <!-- 切换白天晚上（动态显示天空） -->
+  <!-- 返回主页 -->
   <div class="toggleDisplay">
+    <button class="toggleBtn" @click="router.push('/')">回退到首页</button>
+  </div>
+  <!-- 切换白天晚上（动态显示天空） -->
+  <div class="toggleDisplay1">
     <button
       class="toggleBtn"
       id="daylight"
@@ -35,6 +39,7 @@
     <span></span>
     <span></span>
   </div>
+  <audio ref="audio" preload="auto" autoplay loop :src="require('@/assets/背景音效2.mp3')"></audio>
   <loadingPage :info="state"></loadingPage>
 </template>
 
@@ -565,7 +570,7 @@ const initModel = () => {
 const showSky = () => {
   // 加载HDR贴图
   const hdr = new RGBELoader()
-  hdr.loadAsync('texture/hdr/天空2.hdr').then((texture) => {
+  hdr.loadAsync('texture/hdr/天空6.hdr').then((texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping
     // scene.value.rotation.y = Math.PI * 1.3
     scene.value.background = texture
@@ -972,6 +977,24 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 13px;
   left: 125px;
+  .toggleBtn {
+    cursor: pointer;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 550;
+    border: 1px solid #52a9c4;
+    background-color: #52a9c4;
+    color: white;
+  }
+}
+
+.toggleDisplay1 {
+  position: absolute;
+  top: 13px;
+  left: 270px;
   .toggleBtn {
     cursor: pointer;
     width: 135px;
