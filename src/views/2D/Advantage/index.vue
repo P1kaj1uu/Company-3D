@@ -26,6 +26,7 @@
       </div>
       <div></div>
     </div>
+    <audio ref="audio" preload="auto" autoplay loop :src="require('@/assets/背景音效1.mp3')"></audio>
   </div>
 </template>
 
@@ -262,7 +263,7 @@ export default {
       > div:nth-child(3) {
         width: 799px;
         height: 32px;
-        font-size: 12px;
+        font-size: 14px;
         font-family: Myriad Pro;
         font-weight: 400;
         color: #FFFFFF;
