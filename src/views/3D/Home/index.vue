@@ -2,6 +2,8 @@
   <div class="box">
     <div id="threeBox" ref="threeBox"></div>
   </div>
+  <div class="tips">点击进入触及科技办公区</div>
+  <audio ref="audio" preload="auto" autoplay loop :src="require('@/assets/背景音效1.mp3')"></audio>
   <loadingPage :info="state"  :home="true"></loadingPage>
 </template>
 <script setup>
@@ -202,6 +204,10 @@ const mouse = ref(null)
 mouse.value = new THREE.Vector2()
 // 监听鼠标移动（左右摇晃）
 window.addEventListener('mousemove', (event) => {
+  if (document.querySelector('.tips')) {
+    document.querySelector('.tips').style.left = event.pageX + 20 + 'px'
+    document.querySelector('.tips').style.top = event.pageY + 20 + 'px'
+  }
   mouse.value.x = (event.clientX / window.innerWidth - 5).toFixed(2)
   mouse.value.y = (event.clientY / window.innerHeight - 5).toFixed(2)
   if (camera.value) {
@@ -288,9 +294,12 @@ const onMouseEnter = (event) => {
   }
   if (intersects[0]?.object?.parent?.name === '17-13' && intersects[0].object.parent.type === 'Object3D') {
     document.body.style.cursor = 'pointer'
+    document.querySelector('.tips').style.visibility = 'visible'
     showLogos(intersects[0].object.parent, 5)
     shinyMainObj(intersects[0]?.object?.parent)
     // outlineObj(intersects[0].object.parent)
+  } else {
+    document.querySelector('.tips').style.visibility = 'hidden'
   }
 }
 const composer = ref(null) // 后期处理
@@ -800,6 +809,13 @@ const clearScene = () => {
   width: 100%;
   height: 100vh;
   // z-index: -1;
+}
+
+.tips {
+  visibility: hidden;
+  position: absolute;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .btn {
